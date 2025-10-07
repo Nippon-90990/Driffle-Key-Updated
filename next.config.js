@@ -36,6 +36,10 @@ const nextConfig = {
                 hostname: 'driffle.com',
             },
             {
+                protocol: 'https',
+                hostname: 'https://driffle-key-cloud-database-backend.onrender.com',
+            },
+            {
                 protocol: 'http',   // Use http for local development or specific vps server
                 hostname: '103.91.67.162',
             },
