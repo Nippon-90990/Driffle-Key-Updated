@@ -17,7 +17,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'https://driffle-key-cloud-database-backend.onrender.com',
+                hostname: 'driffle-key-cloud-database-backend.onrender.com',
             },
             {
                 protocol: 'https',
