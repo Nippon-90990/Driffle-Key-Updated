@@ -17,7 +17,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'playful-book-1c46d71b3d.media.strapiapp.com',
+                hostname: 'driffle-key-cloud-database-backend.onrender.com',
             },
             {
                 protocol: 'https',
