@@ -18,6 +18,13 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'driffle-key-cloud-database-backend.onrender.com',
+<<<<<<< HEAD
+=======
+            },
+            {
+                protocol: 'https',
+                hostname: 'playful-book-1c46d71b3d.media.strapiapp.com',
+>>>>>>> c441c8f9a9a9676224c090945f9dd68c70086b36
             },
             {
                 protocol: 'https',
