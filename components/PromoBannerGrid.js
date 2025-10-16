@@ -139,6 +139,7 @@ const PromoBannerGrid = () => {
 
   return (
     <div className="grid gap-4">
+    {/*<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">*/}
       {banners.map((item) => {
         const getStrapiMedia = (url) => {
           if (!url) return '';
@@ -148,16 +149,19 @@ const PromoBannerGrid = () => {
 
 
         const imgUrl = getStrapiMedia(item.image?.url);
+        const linkHref = item.subtitle && item.subtitle.trim() !== '' ? item.subtitle : '#';
+        
 
         return (
-          <Link key={item.id} href={'#'} className="group">
-            <div className="filter brightness-110 contrast-105 relative h-[215px] w-full rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 aspect-[2/1] object-cover">
+          <Link key={item.id} href={linkHref} className="group">
+            {/* <div className="filter brightness-110 contrast-105 relative h-[215px] w-full rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 aspect-[2/1] object-cover"> */}
+            <div className="relative w-full aspect-[2/1] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
               {/* {imageUrl && ( */}
               <Image
                 src={imgUrl}
                 alt={item.title}
                 fill
-                objectFit='center'
+                // objectFit='center'
                 className="w-full h-[200px] transition-transform group-hover:scale-105"   // {/* filter brightness-110 contrast-120 saturate-110 */}
               />
               {/* // )} */}

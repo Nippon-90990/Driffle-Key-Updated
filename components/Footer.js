@@ -455,6 +455,7 @@ export default function Footer() {
 
           <h4 className="text-white font-semibold text-xl mt-5 mb-3">Business</h4>
           <p className='cursor-pointer text-[gray] hover:text-white'>Sell on Driffle</p>
+          <p className='cursor-pointer text-[gray] hover:text-white'>Wholesale</p>
         </div>
 
         {/* Column 6: Follow Us */}

@@ -9,7 +9,7 @@ import DiscoverByPrice from '@/components/DiscoverByPrice';
 import NewsletterSection from '@/components/NewsletterSection';
 import BeastSelling from '@/components/BeastSelling';
 import ProductGiftCardCarousel from '@/components/ProductGiftCardCarousel';
-
+import PromoBannerOne from '@/components/PromoBannerOne';
 
 const HomeHero = () => {
   return (
@@ -20,6 +20,7 @@ const HomeHero = () => {
         </div>
         <div className="hidden lg:block">
           <PromoBannerGrid />
+          {/* <PromoBannerOne /> */}
         </div>
       </div>
       <CategoryGrid />

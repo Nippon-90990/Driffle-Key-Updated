@@ -87,9 +87,10 @@ export default function index() {
     async function getData() {
       try {
         // Fetch both collections in parallel
-        const [productRes, giftCardRes] = await Promise.all([
+        const [productRes, giftCardRes, playStationRes] = await Promise.all([
           fetchFromStrapi('api/products?populate=*'),
-          fetchFromStrapi('api/gift-cards?populate=*')
+          fetchFromStrapi('api/gift-cards?populate=*'),
+          fetchFromStrapi('api/play-stations?populate=*')
         ]);
 
         // Normalize products
@@ -104,8 +105,14 @@ export default function index() {
           type: 'gift-card'
         }));
 
+        // Normalize gift cards
+        const PlayStations = (playStationRes.data || []).map((item) => ({
+          ...item,
+          type: "store/category/product/psn"
+        }));
+
         // Merge both collections
-        setItems([...products, ...giftCards]);
+        setItems([...products, ...giftCards, ...PlayStations]);
       } catch (error) {
         console.error('Failed to fetch items:', error);
       }
@@ -185,7 +192,7 @@ export default function index() {
                     <h3 className="text-sm font-semibold line-clamp-2 px-3 mt-1 text-black">{item.title}</h3>
                     <h3 className="text-sm font-semibold text-blue-600 px-3 mt-1">{item.card_region}</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-300 px-3 mt-2 mb-2">
-                      {symbol} {item.discountPrice}
+                      {symbol} {Number(item.discountPrice).toFixed(2)}
                     </p>
                   </div>
                 </Link>) : (<div

@@ -253,10 +253,10 @@ export default function Header() {
                 <Link href="/store" className="whitespace-nowrap">
                     Store
                 </Link>
-                <Link href="#" className="whitespace-nowrap">
+                <Link href="/upcoming" className="whitespace-nowrap">
                     Upcoming
                 </Link>
-                <Link href="#" className="whitespace-nowrap">
+                <Link href="/topup" className="whitespace-nowrap">
                     Topups
                 </Link>
                 <Link href="#" className="whitespace-nowrap">

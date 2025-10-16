@@ -34,13 +34,15 @@ export default function LiveSearch() {
 
         try {
             // Fetch products + gift cards in parallel
-            const [productRes, giftCardRes] = await Promise.all([
+            const [productRes, giftCardRes, playStationRes] = await Promise.all([
                 fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}api/products?filters[title][$containsi]=${q}&populate=*`),
-                fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}api/gift-cards?filters[title][$containsi]=${q}&populate=*`)
+                fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}api/gift-cards?filters[title][$containsi]=${q}&populate=*`),
+                fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}api/play-stations?filters[title][$containsi]=${q}&populate=*`)
             ]);
 
             const productData = await productRes.json();
             const giftCardData = await giftCardRes.json();
+            const PlayStationData = await playStationRes.json();
 
             // Normalize results with type field
             const products = (productData.data || []).map((item) => ({
@@ -53,8 +55,13 @@ export default function LiveSearch() {
                 type: "gift-card",
             }));
 
+            const PlayStations = (PlayStationData.data || []).map((item) => ({
+                ...item,
+                type: "store/category/psn",
+            }));
+
             // Merge and set state
-            setResults([...products, ...giftCards]);
+            setResults([...products, ...giftCards, ...PlayStations]);
         } catch (err) {
             console.error("Error fetching search results:", err);
             setResults([]);

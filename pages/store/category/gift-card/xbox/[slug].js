@@ -30,7 +30,7 @@ import ErrorPage from "next/error";
 export async function getServerSideProps({ params }) {
     const { slug } = params;
 
-    const res = await fetchFromStrapi(`api/gift-cards?filters[slug][$eq]=${slug}&populate=*`);
+    const res = await fetchFromStrapi(`api/xbox-gift-cards?filters[slug][$eq]=${slug}&populate=*`);
     // const res = await fetchFromStrapi(`api/products?filters[slug][$eq]=${slug}&populate=*`);
     const product = res.data[0] || null;
     // const variations = product?.variations || [];
@@ -266,7 +266,7 @@ export default function ProductPage({ product }) {
                                         checked={selectedSlug === product.slug}
                                         onChange={() => {
                                             setSelectedSlug(product.slug);
-                                            router.push(`/gift-card/${product.slug}`);
+                                            router.push(`/store/category/psn/${product.slug}`);
                                         }}
                                     // defaultChecked
                                     />
@@ -310,8 +310,8 @@ export default function ProductPage({ product }) {
                         <p className="text-xs text-white/70 uppercase font-medium mb-1">Featured Offer</p>
                         <p className="text-xl lg:text-2xl font-bold">{symbol} {Number(product.discountPrice).toFixed(2)}</p>
                         <div className="flex items-center gap-2 text-xs lg:text-sm text-white/60">
-                            {/* <span className="line-through">{symbol} {product.price}</span> */}
-                            {/* <span className="text-green-400 font-semibold">~ {discountPercent}% off</span> */}
+                            <span className="line-through">{symbol} {Number(product.price).toFixed(2)}</span>
+                            <span className="text-green-400 font-semibold">~ {discountPercent}% off</span>
                         </div>
                     </div>
 
@@ -484,8 +484,9 @@ export default function ProductPage({ product }) {
                                     h2: ({ node, ...props }) => <h2 className="text-md font-bold mt-6 mb-2" {...props} />,    //importent but if you add h2 on heading description
                                     strong: ({ node, ...props }) => <strong className="text-md font-bold text-white" {...props} />,    //importent but if you add h2 on heading description
                                     ul: ({ node, ...props }) => <ul className="list-disc pl-0 ml-8 mb-5" {...props} />,   //importent
-                                    li: ({ node, ...props }) => <li className="mb-1" {...props} />,   //importent
+                                    li: ({ node, ...props }) => <li className="mb-1 text-[#bfbfbf]" {...props} />,   //importent
                                     p: ({ node, ...props }) => <p className="mb-2 leading-relaxed text-[#bfbfbf]" {...props} />,   //importent
+                                    a: ({ node, ...props }) => <a className="mb-2 leading-relaxed text-[#359dff]" {...props} />,   //importent
                                 }}
                             >
                                 {product?.description}
@@ -500,6 +501,7 @@ export default function ProductPage({ product }) {
                         <div className="ml-8 justify-center">
                             <ReactMarkdown
                                 components={{
+                                    h1: ({ node, ...props }) => <h1 className="font-semibold mb-5 text-lg" {...props} />,
                                     h2: ({ node, ...props }) => <h2 className="text-md font-bold mt-6 mb-2" {...props} />,    //importent but if you add h2 on heading description
                                     strong: ({ node, ...props }) => <strong className="text-md font-bold text-white" {...props} />,    //importent but if you add h2 on heading description
                                     ul: ({ node, ...props }) => <ul className="list-disc pl-0" {...props} />,   //importent
@@ -514,7 +516,7 @@ export default function ProductPage({ product }) {
                 </>)}
 
                 {product?.editiondescription && (<div>
-                    <div className="mt-5 text-md font-bold">Premium Edition Features</div>
+                    <div className="mt-5 text-md font-bold"></div>
 
                     <div className="mt-2 text-[0.875rem] text-[#bfbfbf] leading-[20px] text-justify">
                         <div className="ml-8 justify-center">

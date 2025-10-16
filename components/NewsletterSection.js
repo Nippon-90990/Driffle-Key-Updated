@@ -1,6 +1,75 @@
 import Image from 'next/image';
+import { useState } from 'react';
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function NewsletterSection() {
+
+    const [email, setEmail] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState("");
+    // const [showMessage, setShowMessage] = useState(true);
+
+    const handleSubscribe = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setMessage("");
+        // setShowMessage(false);
+
+        try {
+            // Optional: basic front-end duplicate check in localStorage
+            if (localStorage.getItem("subscribedEmail") === email) {
+                setMessage("✅ You’re already subscribed!");
+                setLoading(false);
+                return;
+            }
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}api/newsletter-subscribers`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    data: { email },
+                }),
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to subscribe");
+            }
+
+            setMessage("🎉 Thank you for subscribing!");
+            setEmail("");
+
+            // 👇 Automatically clear message after 4 seconds
+            setTimeout(() => {
+                setMessage("");
+            }, 4000);
+
+        } catch (err) {
+            setMessage("❌ Something went wrong. Try again.");
+            console.error(err);
+
+            // Clear error message after 4 seconds too
+            setTimeout(() => {
+                setMessage("");
+            }, 4000);
+
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Vapor motion variants
+    const vaporVariants = {
+        hidden: { opacity: 0, y: 20, filter: "blur(6px)" },
+        visible: (i) => ({
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" },
+        }),
+    };
+
     return (
         <div className=" px-6 py-16 lg:px-24 flex flex-col lg:flex-row justify-between items-start lg:items-center">
             {/* Left: Newsletter Form */}
@@ -10,17 +79,37 @@ export default function NewsletterSection() {
                     updates on <span className="">best deals!</span>
                 </h2>
 
-                <div className="flex w-full max-w-xl gap-5">
+                <form onSubmit={handleSubscribe} className="flex w-full max-w-xl gap-4">
                     <input
                         required
                         type="email"
                         placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="flex-1 p-4 rounded-md focus:outline-none bg-[#1a1a1a]"
                     />
-                    <button type='submit' style={{cursor: 'pointer'}} className="bg-blue-600 hover:bg-blue-700 px-6 rounded-md font-semibold">
-                        Subscribe
+                    <button type='submit' disabled={loading} style={{ cursor: 'pointer' }} className="bg-blue-600 hover:bg-blue-700 px-6 rounded-md font-semibold">
+                        {loading ? "Subscribing..." : "Subscribe"}
                     </button>
-                </div>
+                </form>
+
+                {/* {message && <p className="text-sm mt-3 text-gray-300">{message}</p>} */}
+
+                {/* Animated Message */}
+                <AnimatePresence>
+                    {message && (
+                        <motion.p
+                            key="msg"
+                            initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
+                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                            exit={{ opacity: 0, y: -10, filter: "blur(6px)" }}
+                            transition={{ duration: 0.6 }}
+                            className="text-sm mt-3 text-[#808073]"
+                        >
+                            {message}
+                        </motion.p>
+                    )}
+                </AnimatePresence>
 
                 <p className="text-sm text-gray-400 mt-4 max-w-lg text-justify tracking-tight">
                     By subscribing, you agree to receive commercial communications from driffle.com via email, including
@@ -37,15 +126,35 @@ export default function NewsletterSection() {
 
             {/* Right: Logo Grid */}
             <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
-                <Image 
-                // src={'https://steadfast-gem-fdb13b7584.media.strapiapp.com/unnamed_1_d52c38025a.png'}
-                // src={'https://playful-book-1c46d71b3d.media.strapiapp.com/unnamed_1_d52c38025a_3632a18adf.png'}
-                src={'/3d/news.png'}
-                height={512}
-                width={512}
+                <Image
+                    // src={'https://steadfast-gem-fdb13b7584.media.strapiapp.com/unnamed_1_d52c38025a.png'}
+                    // src={'https://playful-book-1c46d71b3d.media.strapiapp.com/unnamed_1_d52c38025a_3632a18adf.png'}
+                    src={'/3d/news.png'}
+                    height={512}
+                    width={512}
+                    priority
+                    alt='newsletter'
+                    className='object-contain drop-shadow-lg'
                 />
-                
+
             </div>
+
+            {/* Right: Image */}
+            {/* <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                className="w-full lg:w-1/2 flex justify-center lg:justify-end"
+            >
+                <Image
+                    src="/3d/news.png"
+                    height={512}
+                    width={512}
+                    priority
+                    alt="newsletter"
+                    className="object-contain drop-shadow-lg"
+                />
+            </motion.div> */}
         </div>
     );
 }

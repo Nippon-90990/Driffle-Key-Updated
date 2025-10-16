@@ -97,11 +97,12 @@ export default function CategoryGrid() {
           };
 
           const imgUrl = getStrapiMedia(item.image?.url);
+          const linkHref = item.subtitle && item.subtitle.trim() !== '' ? item.subtitle : '#';
 
           return (
             <Link
               key={item.id}
-              href="#"
+              href={linkHref}
               className="relative aspect-[2.8/1] rounded-2xl overflow-hidden shadow-md group"
             >
               <Image

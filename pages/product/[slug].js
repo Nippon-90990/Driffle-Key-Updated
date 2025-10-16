@@ -1283,7 +1283,7 @@ export default function ProductPage({ product }) {
         <h2 className="text-sm lg:text-base font-semibold">Other details</h2>
 
         {/* Grid for metadata */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+        <div className="flex justify-around md:grid-cols-4 gap-4 lg:gap-6">
           <div>
             <p className="text-gray-400 mb-1">Release date</p>
             <p className="text-white">{product.releaseDate}</p>

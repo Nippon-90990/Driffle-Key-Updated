@@ -30,7 +30,7 @@ import ErrorPage from "next/error";
 export async function getServerSideProps({ params }) {
     const { slug } = params;
 
-    const res = await fetchFromStrapi(`api/gift-cards?filters[slug][$eq]=${slug}&populate=*`);
+    const res = await fetchFromStrapi(`api/roblox-gift-cards?filters[slug][$eq]=${slug}&populate=*`);
     // const res = await fetchFromStrapi(`api/products?filters[slug][$eq]=${slug}&populate=*`);
     const product = res.data[0] || null;
     // const variations = product?.variations || [];
@@ -192,7 +192,7 @@ export default function ProductPage({ product }) {
                             </div>
                             <div>
                                 <p className="text-xs lg:text-sm">
-                                    Can be activated in <strong>India</strong>
+                                    Can be activated in <strong>{product.region}</strong>
                                 </p>
                                 <a href="#" className="text-[#359dff] text-xs">Check Restrictions</a>
                             </div>
@@ -226,14 +226,14 @@ export default function ProductPage({ product }) {
                             </div>
                             <div>
                                 <p className="text-xs lg:text-sm">
-                                    Platform: <strong>Rockstar Games</strong>
+                                    Platform: <strong>Roblox</strong>
                                 </p>
                                 <a href="#" className="text-[#359dff] text-xs">Activation Guide</a>
                             </div>
                         </div>
 
                         {/* Operating System */}
-                        <div className="flex items-start gap-3">
+                        {!product.workPlatform && (<div className="flex items-start gap-3">
                             <div className="h-[56px] w-[56px] border border-[#e7e7e7] bg-white dark:bg-[#1a1a1a] rounded-xl flex items-center justify-center">
                                 {/* <LuLaptopMinimalCheck className="text-xl text-[#359dff]" /> */}
                                 <Image src={'/system.svg'} height={26} width={26} />
@@ -244,7 +244,7 @@ export default function ProductPage({ product }) {
                                 </p>
                                 <a href="#" className="text-[#359dff] text-xs">System Requirements</a>
                             </div>
-                        </div>
+                        </div>)}
                     </div>
 
                     <div className="border-t border-neutral-800 mt-3 lg:mt-4"></div>
@@ -266,7 +266,7 @@ export default function ProductPage({ product }) {
                                         checked={selectedSlug === product.slug}
                                         onChange={() => {
                                             setSelectedSlug(product.slug);
-                                            router.push(`/gift-card/${product.slug}`);
+                                            router.push(`/store/category/psn/${product.slug}`);
                                         }}
                                     // defaultChecked
                                     />
@@ -310,8 +310,8 @@ export default function ProductPage({ product }) {
                         <p className="text-xs text-white/70 uppercase font-medium mb-1">Featured Offer</p>
                         <p className="text-xl lg:text-2xl font-bold">{symbol} {Number(product.discountPrice).toFixed(2)}</p>
                         <div className="flex items-center gap-2 text-xs lg:text-sm text-white/60">
-                            {/* <span className="line-through">{symbol} {product.price}</span> */}
-                            {/* <span className="text-green-400 font-semibold">~ {discountPercent}% off</span> */}
+                            <span className="line-through">{symbol} {Number(product.price).toFixed(2)}</span>
+                            <span className="text-green-400 font-semibold">~ {discountPercent}% off</span>
                         </div>
                     </div>
 
@@ -450,12 +450,12 @@ export default function ProductPage({ product }) {
                 <h2 className="text-lg lg:text-xl font-bold mb-3 lg:mb-4 dark:text-white">Product description</h2>
                 {/* <div className="font-semibold mb-5 text-lg">{product.title}</div> */}
 
-                <div className="flex items-center gap-2 mb-5.5">
+                {/* {product.workPlatform && (<div className="flex items-center gap-2 mb-5.5">
                     <span className="text-gray-400 text-[14px]">System :</span>
                     <span className="bg-[#2f2f2f] text-white px-2 lg:px-3 py-1.5 rounded-[20px] text-[14px] font-medium cursor-pointer">{product.workPlatform}</span>
-                </div>
+                </div>)} */}
 
-                {Tags.gametag_1 && (<div className="flex gap-3.5">
+                {/* {Tags.gametag_1 && (<div className="flex gap-3.5">
                     {Tags.gametag_1 && (<div className="rounded-2xl bg-[#2a2a2a] hover:bg-[#333] transition-all h-[35px] w-[100px] flex items-center justify-center">{Tags.gametag_1}</div>)}
                     {Tags.gametag_2 && (<div className="rounded-2xl bg-[#2a2a2a] hover:bg-[#333] transition-all h-[35px] w-[100px] flex items-center justify-center">{Tags.gametag_2}</div>)}
                     {Tags.gametag_3 && (<div className="rounded-2xl bg-[#2a2a2a] hover:bg-[#333] transition-all h-[35px] w-[100px] flex items-center justify-center">{Tags.gametag_3}</div>)}
@@ -471,7 +471,7 @@ export default function ProductPage({ product }) {
                     {Tags.gametag_13 && (<div className="rounded-2xl bg-[#2a2a2a] hover:bg-[#333] transition-all h-[35px] w-[100px] flex items-center justify-center">{Tags.gametag_13}</div>)}
                     {Tags.gametag_14 && (<div className="rounded-2xl bg-[#2a2a2a] hover:bg-[#333] transition-all h-[35px] w-[100px] flex items-center justify-center">{Tags.gametag_14}</div>)}
                     {Tags.gametag_15 && (<div className="rounded-2xl bg-[#2a2a2a] hover:bg-[#333] transition-all h-[35px] w-[100px] flex items-center justify-center">{Tags.gametag_15}</div>)}
-                </div>)}
+                </div>)} */}
 
                 {/* <div className="mt-5"><p className="text-[0.875rem] text-[#bfbfbf] leading-[20px] text-justify">{product.description}</p></div> */}
                 {product.description && (<><div className="mt-5 text-md font-bold"></div>
@@ -484,8 +484,9 @@ export default function ProductPage({ product }) {
                                     h2: ({ node, ...props }) => <h2 className="text-md font-bold mt-6 mb-2" {...props} />,    //importent but if you add h2 on heading description
                                     strong: ({ node, ...props }) => <strong className="text-md font-bold text-white" {...props} />,    //importent but if you add h2 on heading description
                                     ul: ({ node, ...props }) => <ul className="list-disc pl-0 ml-8 mb-5" {...props} />,   //importent
-                                    li: ({ node, ...props }) => <li className="mb-1" {...props} />,   //importent
+                                    li: ({ node, ...props }) => <li className="mb-1 text-[#bfbfbf]" {...props} />,   //importent
                                     p: ({ node, ...props }) => <p className="mb-2 leading-relaxed text-[#bfbfbf]" {...props} />,   //importent
+                                    a: ({ node, ...props }) => <a className="mb-2 leading-relaxed text-[#359dff]" {...props} />,   //importent
                                 }}
                             >
                                 {product?.description}
@@ -500,6 +501,7 @@ export default function ProductPage({ product }) {
                         <div className="ml-8 justify-center">
                             <ReactMarkdown
                                 components={{
+                                    h1: ({ node, ...props }) => <h1 className="font-semibold mb-5 text-lg" {...props} />,
                                     h2: ({ node, ...props }) => <h2 className="text-md font-bold mt-6 mb-2" {...props} />,    //importent but if you add h2 on heading description
                                     strong: ({ node, ...props }) => <strong className="text-md font-bold text-white" {...props} />,    //importent but if you add h2 on heading description
                                     ul: ({ node, ...props }) => <ul className="list-disc pl-0" {...props} />,   //importent
@@ -514,7 +516,7 @@ export default function ProductPage({ product }) {
                 </>)}
 
                 {product?.editiondescription && (<div>
-                    <div className="mt-5 text-md font-bold">Premium Edition Features</div>
+                    <div className="mt-5 text-md font-bold"></div>
 
                     <div className="mt-2 text-[0.875rem] text-[#bfbfbf] leading-[20px] text-justify">
                         <div className="ml-8 justify-center">
@@ -694,7 +696,7 @@ export default function ProductPage({ product }) {
             </div>)}
 
             {/* Other details */}
-            {product.releaseDate && (<div className="bg-[#1a1a1a] text-white p-4 lg:p-6 rounded-xl mt-4 lg:mt-8 border border-[#2a2a2a] text-xs lg:text-sm space-y-3 lg:space-y-4 max-w-[1500px] mx-auto">
+            {product.publisher && (<div className="bg-[#1a1a1a] text-white p-4 lg:p-6 rounded-xl mt-4 lg:mt-8 border border-[#2a2a2a] text-xs lg:text-sm space-y-3 lg:space-y-4 max-w-[1500px] mx-auto">
                 {/* Section Title */}
                 {/* <h2 className="text-sm lg:text-base font-semibold">Other details</h2> */}
 
@@ -709,10 +711,10 @@ export default function ProductPage({ product }) {
                         <p className="text-gray-400 mb-1">Developers</p>
                         <p className="text-white">{product.developer}</p>
                     </div>
-                    <div>
+                    {product.releaseDate && (<div>
                         <p className="text-gray-400 mb-1">Release date</p>
                         <p className="text-white">{product.releaseDate}</p>
-                    </div>
+                    </div>)}
                     {ageimage && (<div>
                         <p className="text-gray-400 mb-1">Age rating</p>
                         <Image width={6} height={6} src={age} alt="18+" className="w-8 h-8" />

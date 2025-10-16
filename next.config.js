@@ -17,14 +17,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'driffle-key-cloud-database-backend.onrender.com',
-<<<<<<< HEAD
-=======
-            },
-            {
-                protocol: 'https',
                 hostname: 'playful-book-1c46d71b3d.media.strapiapp.com',
->>>>>>> c441c8f9a9a9676224c090945f9dd68c70086b36
             },
             {
                 protocol: 'https',
@@ -44,11 +37,11 @@ const nextConfig = {
             },
             {
                 protocol: 'http',   // Use http for local development or specific vps server
-                hostname: '103.91.67.162',
+                hostname: 'localhost',
             },
             {
-                protocol: 'http',   // Use http for local development or specific vps server
-                hostname: 'localhost',
+                protocol: 'https',   // Use http for local development or specific vps server
+                hostname: 'images.igdb.com',
             },
         ],
     },

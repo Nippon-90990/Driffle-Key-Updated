@@ -76,7 +76,7 @@ export default function BeastSelling() {
                                     <h3 className="text-sm font-semibold line-clamp-2 px-3 mt-1 text-black">{item.title}</h3>
                                     <h3 className="text-sm font-semibold text-blue-600 px-3 mt-1">{item.card_region}</h3>
                                     <p className="text-sm text-gray-600 dark:text-gray-300 px-3 mt-2 mb-2">
-                                        {symbol} {item.price}
+                                        {symbol} {Number(item.discountPrice).toFixed(2)}
                                     </p>
                                 </div>
                             </Link>) : (<div
@@ -111,8 +111,8 @@ export default function BeastSelling() {
                                 <div className='bg-gray-100 dark:bg-black/30 backdrop-blur-sm px-1 py-1 rounded-b-md'>
                                     <h3 className="text-sm font-semibold line-clamp-2 px-3 mt-1 text-black">{item.title}</h3>
                                     <h3 className="text-sm font-semibold text-blue-600 px-3 mt-1">{item.card_region}</h3>
-                                    <p className="text-sm text-gray-600 dark:text-gray-300 px-3 mt-2 mb-2">
-                                        {symbol} {item.price}
+                                    <p className="text-sm text-[#B22222] dark:text-gray-300 px-3 mt-2 mb-2">
+                                        Sold Out
                                     </p>
                                 </div>
                             </div>)}
